@@ -1,0 +1,3 @@
+rootProject.name = 'leadexperimentsMobile'
+
+include ':app'
