@@ -15,6 +15,9 @@ import { Actions, ActionConst } from 'react-native-router-flux';
 
 import spinner from '../images/loading.gif';
 
+import AuthService from '../services/AuthService';
+import AppDispatcher from '../dispatchers/AppDispatcher.js';
+
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 const MARGIN = 40;
@@ -36,6 +39,12 @@ export default class ButtonSubmit extends Component {
       
   }
 
+  _resetState() {
+  	this.setState({ isLoading: false });
+		this.buttonAnimated.setValue(0);
+		this.growAnimated.setValue(0);
+  }
+
 	_onPress() {
 		if (this.state.isLoading) return;
 
@@ -49,18 +58,36 @@ export default class ButtonSubmit extends Component {
 			}
 		).start();
 
-		setTimeout(() => {
+		/*setTimeout(() => {
 			this._onGrow();
-		}, 2000);
+		}, 2000);*/
 
-		setTimeout(() => {
+		/*setTimeout(() => {
 			console.log(this);
 			//Actions.secondScreen();
 			this._onPressButtonPOST("lol","george")
 			this.setState({ isLoading: false });
 			this.buttonAnimated.setValue(0);
 			this.growAnimated.setValue(0);
-		}, 2300);
+		}, 2300);*/
+		
+		AuthService.login(AuthService.state.email, AuthService.state.password)
+		.then((response)=> { 
+				Actions.secondScreen();
+				this._resetState();
+		})
+		.catch(e => {
+			console.log(e);
+			this._resetState();
+			Alert.alert(
+			  'Login Failed',
+			  '',
+			  [
+			    {text: 'OK', onPress: () => console.log('OK Pressed')},
+			  ],
+			  { cancelable: true }
+			)
+	  })
 	}
 
 	_onGrow() {

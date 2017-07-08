@@ -16,13 +16,15 @@ import SignupSection from './SignupSection';
 import usernameImg from '../images/username.png';
 import passwordImg from '../images/password.png';
 import eyeImg  from '../images/eye_black.png';
+import AuthService from '../services/AuthService';
+
 
 export default class Form extends Component {
 	constructor(props) {
     super(props);
     this.state = {
 			showPass: true,
-			press: false,
+			press: false
 		};
 		this.showPass = this.showPass.bind(this);
 	}
@@ -36,11 +38,15 @@ export default class Form extends Component {
 			<KeyboardAvoidingView behavior='padding'
 				style={styles.container}>
 				<UserInput source={usernameImg}
+					onChangeText={(email) => {AuthService.state.email = email;} }
+					value={this.state.text}
 					placeholder='Email'
 					autoCapitalize={'none'}
 					returnKeyType={'done'}
 					autoCorrect={false} />
 				<UserInput source={passwordImg}
+					onChangeText={(password) => {AuthService.state.password = password;} }
+					value={this.state.text}
 					secureTextEntry={this.state.showPass}
 					placeholder='Password'
 					returnKeyType={'done'}

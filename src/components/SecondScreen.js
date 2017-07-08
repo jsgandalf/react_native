@@ -10,6 +10,9 @@ import {
 import { Actions, ActionConst } from 'react-native-router-flux';
 
 import arrowImg from '../images/left-arrow.png';
+import AuthService from '../services/AuthService';
+import Modules from './Modules';
+import LoginStore from '../stores/LoginStore'
 
 const SIZE = 40;
 
@@ -19,10 +22,27 @@ export default class SecondScreen extends Component {
 
 		this.state = {
 			isLoading: false,
+			university: {}
 		};
 
 		this._onPress = this._onPress.bind(this);
 		this.growAnimated = new Animated.Value(0);
+		this.getUniversity()
+			.then(university => {this.state.university = university;})
+			.catch(e => { console.log(e); });
+		LoginStore.getCache().then((response)=> console.log(response));
+
+	}
+	getUniversity(){
+		return fetch('https://app.leadexperiments.com/api/university/5911fea2f75eda1200ab52bd?access_token='+AuthService.state.apiKey, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+  	  .then(this.handleErrors)
+      .then(response => { return response.json(); })
 	}
 
 	_onPress() {
@@ -52,12 +72,7 @@ export default class SecondScreen extends Component {
 
 		return (
 			<View style={styles.container}>
-				<TouchableOpacity onPress={this._onPress}
-					style={styles.button}
-					activeOpacity={1}>
-					<Image style={styles.image} source={arrowImg} />
-				</TouchableOpacity>
-				<Animated.View style={[ styles.circle, {transform: [{scale: changeScale}]} ]} />
+				<Modules university={this.state.university}></Modules>
 			</View>
 		);
 	}

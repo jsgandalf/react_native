@@ -7,6 +7,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "bluebird": "^3.5.0",
+    "events": "^1.1.1",
+    "flux": "^3.1.2",
+    "jwt-decode": "^1.1.0",
+    "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
     "react-native": "0.45.0",
     "react-native-router-flux": "^3.40.1"

@@ -13,7 +13,9 @@ export default class UserInput extends Component {
 			<View style={styles.inputWrapper}>
 				<Image source={this.props.source}
 					style={styles.inlineImg} />
-				<TextInput style={styles.input}
+				<TextInput 
+					{...this.props}
+					style={styles.input}
 					placeholder={this.props.placeholder}
 					secureTextEntry={this.props.secureTextEntry}
 					autoCorrect={this.props.autoCorrect}
