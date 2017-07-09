@@ -14,7 +14,7 @@ export default class Logo extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-
+				
 				<Text style={styles.text}>LEAD EXPERIMENTS</Text>
 			</View>
 		);

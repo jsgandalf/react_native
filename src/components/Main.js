@@ -3,26 +3,26 @@ import { Router, Scene, Actions, ActionConst } from 'react-native-router-flux';
 
 import LoginScreen from './LoginScreen';
 import SecondScreen from './SecondScreen';
-import LoginStore from '../stores/LoginStore'
+import LoadingScreen from './LoadingScreen';
+import LoginStore from '../stores/LoginStore';
+import AuthService from '../services/AuthService';
 
 export default class Main extends Component {
 	constructor(){
 		super();
 		this.state = this._getLoginState();
-		//this.state = {userLoggedIn: true};
-		console.log(this.state.userLoggedIn)
-		
-
 	}
 
 	getState(){
 		return LoginStore.getCache().then((response)=> {
 			if(response){
-				console.log(response);
+				AuthService.state.apiKey = response.apiKey;
 				this.state.userLoggedIn = true;
-			}
-			console.log(this.state.userLoggedIn)
-			return this.state.userLoggedIn;
+				Actions.secondScreen();
+			}else{
+				Actions.loginScreen()
+				return this.state.userLoggedIn;
+			}	
 		});
 	}
 
@@ -32,6 +32,7 @@ export default class Main extends Component {
 		};
 	}
 	componentDidMount() {
+		this.getState();
 		this.changeListener = this._onChange.bind(this);
 		LoginStore.addChangeListener(this.changeListener);
 	}
@@ -43,43 +44,27 @@ export default class Main extends Component {
 	}
 
   render() {
-  	if (this.state.userLoggedIn) {
-		  return (
-		    <Router>
-		      <Scene key="root">
-		        <Scene key="loginScreen"
-		          component={LoginScreen}
-		        	animation='fade'
-		          hideNavBar={true}
-		          initial={true}
-		        />
-		        <Scene key="secondScreen"
-		          component={SecondScreen}
-		          animation='fade'
-		          hideNavBar={true}
-		        />
-		      </Scene>
-		    </Router>
-		  );
-	  } else {
 	  	return (
 		  	<Router>
 			      <Scene key="root">
+			        <Scene key="loadingScreen"
+			          component={LoadingScreen}
+			        	animation='fade'
+			          hideNavBar={true}
+			          initial={true}
+			        />
 			        <Scene key="loginScreen"
 			          component={LoginScreen}
 			        	animation='fade'
 			          hideNavBar={true}
-			          
 			        />
 			        <Scene key="secondScreen"
 			          component={SecondScreen}
 			          animation='fade'
 			          hideNavBar={true}
-			          initial={true}
 			        />
 			      </Scene>
 			    </Router>
 			  )
-	  }
 	}
 }

@@ -5,27 +5,50 @@ import {
 	Image,
 	TouchableOpacity,
 	FlatList,
+	ListItem,
 	Animated,
 	Text,
 	Easing
 } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
+import UniversityService from "../services/UniversityService"
 
 const SIZE = 40;
 
 export default class Modules extends Component {
 	constructor() {
 		super();
+		this.state = {
+			university: {}
+		}
+		//this.getUniversity();
+
+	}
+
+	componentWillMount(){
+		this.getUniversity();
+	}
+
+	setUniversityState(university) {
+    this.setState({
+      university: university
+    });
+  }
+
+	getUniversity(){
+		UniversityService.getUniversity()
+			.then(university => {console.log(university); this.setUniversityState(university); })
+			.catch(e => { console.log(e); });
 	}
 
 	render() {
 
 		return (
 			<View style={styles.container}>
-				<Text>hello, {this.props.university.modules}</Text>
+				<Text>hello</Text>
 				<FlatList
-				  data={this.props.university.modules}
-				  renderItem={({item}) => <ListItem title={item.name} />}
+				  data={this.state.university.modules}
+				  renderItem={({item}) => <Text>{item.name}</Text>}
 				/>
 			</View>
 		);

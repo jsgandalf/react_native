@@ -12,7 +12,8 @@ import { Actions, ActionConst } from 'react-native-router-flux';
 import arrowImg from '../images/left-arrow.png';
 import AuthService from '../services/AuthService';
 import Modules from './Modules';
-import LoginStore from '../stores/LoginStore'
+import LoginStore from '../stores/LoginStore';
+import UniversityService from '../services/UniversityService';
 
 const SIZE = 40;
 
@@ -27,22 +28,7 @@ export default class SecondScreen extends Component {
 
 		this._onPress = this._onPress.bind(this);
 		this.growAnimated = new Animated.Value(0);
-		this.getUniversity()
-			.then(university => {this.state.university = university;})
-			.catch(e => { console.log(e); });
-		LoginStore.getCache().then((response)=> console.log(response));
 
-	}
-	getUniversity(){
-		return fetch('https://app.leadexperiments.com/api/university/5911fea2f75eda1200ab52bd?access_token='+AuthService.state.apiKey, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
-  	  .then(this.handleErrors)
-      .then(response => { return response.json(); })
 	}
 
 	_onPress() {
@@ -69,7 +55,7 @@ export default class SecondScreen extends Component {
 			inputRange: [0, 1],
 			outputRange: [1, SIZE],
 		});
-
+		console.log(this.state.university)
 		return (
 			<View style={styles.container}>
 				<Modules university={this.state.university}></Modules>

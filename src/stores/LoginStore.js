@@ -14,6 +14,7 @@ class LoginStore extends BaseStore {
 
     async removeCache(){
         try {
+          this._user = null;
           const value = await AsyncStorage.removeItem('@user:instance');
         } catch (error) {
             console.log(error);
@@ -44,16 +45,21 @@ class LoginStore extends BaseStore {
         ;*/
     }
     async getCache(){
-        try {
-          const value = await AsyncStorage.getItem('@user:instance');
-          return value;
-        } catch (error) {
-            console.log(error);
-          // Error retrieving data
+        if(this._user){
+            return this._user;
+        }else{
+            try {
+              const value = await AsyncStorage.getItem('@user:instance');
+              return JSON.parse(value);
+            } catch (error) {
+                console.log(error);
+              // Error retrieving data
+            }
         }
     }
     async setCache(user){
         try {
+          this._user = user;
           await AsyncStorage.setItem('@user:instance', JSON.stringify(user));
         } catch (error) {
           // Error saving data
