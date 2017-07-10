@@ -16,6 +16,10 @@ class UniversityService extends BaseService {
         }
         return response;
     }
+    setUniversityState(university) {
+        this.setState({ university: university});
+    }
+
     getUniversity(){
       return fetch ('https://app.leadexperiments.com/api/university/5911fea2f75eda1200ab52bd?access_token='+AuthService.state.apiKey, {
         method: 'GET',
@@ -26,7 +30,7 @@ class UniversityService extends BaseService {
       })
       .then(this.handleErrors)
       .then(response => { return response.json(); })
-      .then(responseData => {console.log(responseData); return responseData;})
+      .then(responseData => { this.state.university = responseData; return responseData;})
     }
 }
 

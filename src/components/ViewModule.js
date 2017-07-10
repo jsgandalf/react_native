@@ -5,7 +5,8 @@ import {
 	Image,
 	TouchableOpacity,
 	Animated,
-	Easing
+	Easing,
+	Text
 } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
 
@@ -18,47 +19,19 @@ import UniversityService from '../services/UniversityService';
 const SIZE = 40;
 
 export default class SecondScreen extends Component {
-	constructor() {
-		super();
-
+	constructor(props) {
+		super(props);
+		console.log(props)
 		this.state = {
-			isLoading: false,
-			university: {}
+			university: UniversityService.state.university
 		};
-
-		this._onPress = this._onPress.bind(this);
-		this.growAnimated = new Animated.Value(0);
-
 	}
 
-	_onPress() {
-		if (this.state.isLoading) return;
-
-		this.setState({ isLoading: true });
-
-		Animated.timing(
-			this.growAnimated,
-			{
-				toValue: 1,
-				duration: 300,
-				easing: Easing.linear,
-			}
-		).start();
-
-		setTimeout(() => {
-			Actions.pop();
-		}, 500);
-	}
-
+	
 	render() {
-		const changeScale = this.growAnimated.interpolate({
-			inputRange: [0, 1],
-			outputRange: [1, SIZE],
-		});
-		
 		return (
 			<View style={styles.container}>
-				<Modules></Modules>
+				<Text>{this.props.moduleId}</Text>
 			</View>
 		);
 	}
