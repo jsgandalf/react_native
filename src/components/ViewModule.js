@@ -21,10 +21,11 @@ const SIZE = 40;
 export default class SecondScreen extends Component {
 	constructor(props) {
 		super(props);
-		console.log(props)
 		this.state = {
-			university: UniversityService.state.university
+			university: UniversityService.state.university,
 		};
+		this.state.module = this.state.university.modules.filter((module) => {return module._id == this.props.moduleId })[0];
+		console.log(this.state.module);
 	}
 
 	
