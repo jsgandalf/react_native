@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {
+	StyleSheet
+} from 'react-native';
 import { Router, Scene, Actions, ActionConst } from 'react-native-router-flux';
 
 import LoginScreen from './LoginScreen';
@@ -64,13 +67,24 @@ export default class Main extends Component {
 			          animation='fade'
 			          hideNavBar={true}
 			        />
-			        <Scene key="viewModule"
-			          component={ViewModule}
-			          animation='fade'
-			          hideNavBar={false}
-			        />
+			        
+				        <Scene key="viewModule"
+				          component={ViewModule}
+				          animation='fade'
+				          hideNavBar={true}
+				        />
+			        
 			      </Scene>
 			    </Router>
 			  )
 	}
 }
+
+let style = StyleSheet.create({
+    tabBarStyle: {
+        borderTopWidth : .5,
+        borderColor    : '#b7b7b7',
+        backgroundColor: 'white',
+        opacity        : 1
+    }
+});

@@ -19,6 +19,19 @@ class UniversityService extends BaseService {
     setUniversityState(university) {
         this.setState({ university: university});
     }
+    cleanVideo(university){
+        university.modules = university.modules.map((module)=> {
+            module.sections = module.sections.map((section) => {
+                section.lessons = section.lessons.map((lesson) => {
+                    if(lesson.video) lesson.video = lesson.video.replace("https://www.youtube.com/watch?v=","");
+                    return lesson;
+                });
+                return section;
+            });
+            return module;
+        });
+        return university;
+    }
 
     getUniversity(){
       return fetch ('https://app.leadexperiments.com/api/university/5911fea2f75eda1200ab52bd?access_token='+AuthService.state.apiKey, {
@@ -30,7 +43,10 @@ class UniversityService extends BaseService {
       })
       .then(this.handleErrors)
       .then(response => { return response.json(); })
-      .then(responseData => { this.state.university = responseData; return responseData;})
+      .then(responseData => { 
+        this.state.university = this.cleanVideo(responseData);
+        return this.state.university;
+      })
     }
 }
 

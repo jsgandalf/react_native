@@ -40,7 +40,7 @@ export default class Modules extends Component {
 	getUniversity(){
 		if(Object.keys(this.state.university).length === 0 && this.state.university.constructor === Object){
 			UniversityService.getUniversity()
-				.then(university => {console.log(university); this.setUniversityState(university); })
+				.then(university => {this.setUniversityState(university); })
 				.catch(e => { console.log(e); });
 		}
 	}
@@ -54,6 +54,7 @@ export default class Modules extends Component {
 				  data={this.state.university.modules}
 				  renderItem={({item}) => (
 				  	<Card
+				  		containerStyle={styles.containerStyle}
 						  title={item.name}
 						  image={{uri:item.imgThumb}} 
 						  >
@@ -74,6 +75,9 @@ export default class Modules extends Component {
 }
 
 const styles = StyleSheet.create({
+	containerStyle:{
+		margin: 25
+	},
 	container: {
 		display:'flex',
 		flexWrap: 'wrap'

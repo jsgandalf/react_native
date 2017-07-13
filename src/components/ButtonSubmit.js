@@ -73,8 +73,8 @@ export default class ButtonSubmit extends Component {
 		
 		AuthService.login(AuthService.state.email, AuthService.state.password)
 		.then((response)=> { 
-				Actions.secondScreen();
-				this._resetState();
+			Actions.secondScreen();
+			this._resetState();
 		})
 		.catch(e => {
 			console.log(e);
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
 	button: {
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: '#f16334',
+		backgroundColor: '#03a9f4',
 		height: MARGIN,
 		borderRadius: 20,
 		zIndex: 100,
@@ -150,11 +150,11 @@ const styles = StyleSheet.create({
 		width: MARGIN,
 		marginTop: -MARGIN,
 		borderWidth: 1,
-		borderColor: '#f16334',
+		borderColor: '#03a9f4',
 		borderRadius: 100,
 		alignSelf: 'center',
 		zIndex: 99,
-		backgroundColor: '#f16334',
+		backgroundColor: '#03a9f4',
 	},
 	text: {
 		color: 'white',
