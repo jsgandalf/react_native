@@ -22,7 +22,7 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 const MARGIN = 40;
 
-export default class ButtonSubmit extends Component {
+export default class ButtonSubmitSignup extends Component {
 	constructor() {
 		super();
 
@@ -133,7 +133,7 @@ export default class ButtonSubmit extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		top: 0,
+		top: -95,
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 	},

@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Logo from './Logo';
-import Form from './Form';
+import SignupForm from './SignupForm';
 import Wallpaper from './Wallpaper';
-import ButtonSubmit from './ButtonSubmit';
+import ButtonSubmitSignup from './ButtonSubmitSignup';
 import SignupSection from './SignupSection';
 
 export default class LoginScreen extends Component {
@@ -10,8 +10,8 @@ export default class LoginScreen extends Component {
 		return (
 			<Wallpaper>
 				<Logo />
-				<Form />
-				<ButtonSubmit/>
+				<SignupForm />
+				<ButtonSubmitSignup/>
 				<SignupSection/>
 			</Wallpaper>
 		);

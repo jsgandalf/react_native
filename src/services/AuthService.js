@@ -9,6 +9,7 @@ class AuthService extends BaseService {
     constructor() {
         super();
         this.state = {
+            name: '',
             email: '',
             password: '',
             apiKey: ''
@@ -45,24 +46,36 @@ class AuthService extends BaseService {
 
             return this.state.apiKey; 
         })
-          
     }
 
     logout() {
         LoginActions.logoutUser();
     }
 
-    signup(username, password, extra) {
-        return this.handleAuth(this.request({
-            url: Config.SIGNUP_URL,
-            method: 'POST',
-            type: 'json',
-            data: {
-                username, password, extra
-            }
-        }));
+    signup(name, username, password) {
+        return fetch('https://app.leadexperiments.com/api/users', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            password: password,
+          })
+        })
+        .then(this.handleErrors)
+        .then(response => { return response.json(); })
+        .then(responseData => { 
+            this.state.apiKey = responseData.user.apiKey; 
 
+            AppDispatcher.dispatch({
+                user:responseData.user
+            });
 
+            return this.state.apiKey; 
+        })
     }
 
     handleAuth(loginPromise) {
