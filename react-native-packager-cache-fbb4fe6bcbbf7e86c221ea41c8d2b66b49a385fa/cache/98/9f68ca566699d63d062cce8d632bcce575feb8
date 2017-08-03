@@ -1,0 +1,138 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var _jsxFileName = '/Users/seanthomas/Documents/leadexperimentsMobile/src/components/Modules.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _reactNativeElements = require('react-native-elements');
+
+var _reactNativeRouterFlux = require('react-native-router-flux');
+
+var _UniversityService = require('../services/UniversityService');
+
+var _UniversityService2 = babelHelpers.interopRequireDefault(_UniversityService);
+
+var SIZE = 40;
+
+var Modules = function (_Component) {
+	babelHelpers.inherits(Modules, _Component);
+
+	function Modules() {
+		babelHelpers.classCallCheck(this, Modules);
+
+		var _this = babelHelpers.possibleConstructorReturn(this, (Modules.__proto__ || Object.getPrototypeOf(Modules)).call(this));
+
+		_this.state = {
+			university: {}
+		};
+		return _this;
+	}
+
+	babelHelpers.createClass(Modules, [{
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			this.getUniversity();
+		}
+	}, {
+		key: 'setUniversityState',
+		value: function setUniversityState(university) {
+			this.setState({
+				university: university
+			});
+		}
+	}, {
+		key: 'getUniversity',
+		value: function getUniversity() {
+			var _this2 = this;
+
+			if (Object.keys(this.state.university).length === 0 && this.state.university.constructor === Object) {
+				_UniversityService2.default.getUniversity().then(function (university) {
+					_this2.setUniversityState(university);
+				}).catch(function (e) {
+					console.log(e);
+				});
+			}
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+
+			return _react2.default.createElement(
+				_reactNative.View,
+				{ style: styles.container, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 51
+					}
+				},
+				_react2.default.createElement(_reactNative.FlatList, {
+					keyExtractor: function keyExtractor(item) {
+						return item._id;
+					},
+					data: this.state.university.modules,
+					renderItem: function renderItem(_ref) {
+						var item = _ref.item;
+						return _react2.default.createElement(
+							_reactNativeElements.Card,
+							{
+								containerStyle: styles.containerStyle,
+								title: item.name,
+								image: { uri: item.imgThumb },
+								__source: {
+									fileName: _jsxFileName,
+									lineNumber: 56
+								}
+							},
+							_react2.default.createElement(
+								_reactNative.Text,
+								{ style: { marginBottom: 10 }, __source: {
+										fileName: _jsxFileName,
+										lineNumber: 61
+									}
+								},
+								item.description
+							),
+							_react2.default.createElement(_reactNativeElements.Button, {
+								onPress: function onPress() {
+									return _reactNativeRouterFlux.Actions.viewModule({ moduleId: item._id });
+								},
+								backgroundColor: '#03A9F4',
+								buttonStyle: { borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 },
+								title: 'VIEW NOW', __source: {
+									fileName: _jsxFileName,
+									lineNumber: 64
+								}
+							})
+						);
+					},
+					__source: {
+						fileName: _jsxFileName,
+						lineNumber: 52
+					}
+				})
+			);
+		}
+	}]);
+	return Modules;
+}(_react.Component);
+
+exports.default = Modules;
+
+
+var styles = _reactNative.StyleSheet.create({
+	containerStyle: {
+		margin: 25
+	},
+	container: {
+		display: 'flex',
+		flexWrap: 'wrap'
+	},
+	image: {
+		width: 24,
+		height: 24
+	}
+});

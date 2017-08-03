@@ -1,0 +1,175 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var _jsxFileName = '/Users/seanthomas/Documents/leadexperimentsMobile/src/components/Main.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _reactNativeRouterFlux = require('react-native-router-flux');
+
+var _LoginScreen = require('./LoginScreen');
+
+var _LoginScreen2 = babelHelpers.interopRequireDefault(_LoginScreen);
+
+var _SecondScreen = require('./SecondScreen');
+
+var _SecondScreen2 = babelHelpers.interopRequireDefault(_SecondScreen);
+
+var _SignupScreen = require('./SignupScreen');
+
+var _SignupScreen2 = babelHelpers.interopRequireDefault(_SignupScreen);
+
+var _ViewModule = require('./ViewModule');
+
+var _ViewModule2 = babelHelpers.interopRequireDefault(_ViewModule);
+
+var _LoadingScreen = require('./LoadingScreen');
+
+var _LoadingScreen2 = babelHelpers.interopRequireDefault(_LoadingScreen);
+
+var _LoginStore = require('../stores/LoginStore');
+
+var _LoginStore2 = babelHelpers.interopRequireDefault(_LoginStore);
+
+var _AuthService = require('../services/AuthService');
+
+var _AuthService2 = babelHelpers.interopRequireDefault(_AuthService);
+
+var Main = function (_Component) {
+	babelHelpers.inherits(Main, _Component);
+
+	function Main() {
+		babelHelpers.classCallCheck(this, Main);
+
+		var _this = babelHelpers.possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
+
+		_this.state = _this._getLoginState();
+		return _this;
+	}
+
+	babelHelpers.createClass(Main, [{
+		key: 'getState',
+		value: function getState() {
+			var _this2 = this;
+
+			return _LoginStore2.default.getCache().then(function (response) {
+				if (response) {
+					_AuthService2.default.state.apiKey = response.apiKey;
+					_this2.state.userLoggedIn = true;
+					_reactNativeRouterFlux.Actions.secondScreen();
+				} else {
+					_reactNativeRouterFlux.Actions.loginScreen();
+					return _this2.state.userLoggedIn;
+				}
+			});
+		}
+	}, {
+		key: '_getLoginState',
+		value: function _getLoginState() {
+			return {
+				userLoggedIn: _LoginStore2.default.isLoggedIn()
+			};
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.getState();
+			this.changeListener = this._onChange.bind(this);
+			_LoginStore2.default.addChangeListener(this.changeListener);
+		}
+	}, {
+		key: '_onChange',
+		value: function _onChange() {
+			this.setState(this._getLoginState());
+		}
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			_LoginStore2.default.removeChangeListener(this.changeListener);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				_reactNativeRouterFlux.Router,
+				{
+					__source: {
+						fileName: _jsxFileName,
+						lineNumber: 53
+					}
+				},
+				_react2.default.createElement(
+					_reactNativeRouterFlux.Scene,
+					{ key: 'root', __source: {
+							fileName: _jsxFileName,
+							lineNumber: 54
+						}
+					},
+					_react2.default.createElement(_reactNativeRouterFlux.Scene, { key: 'loadingScreen',
+						component: _LoadingScreen2.default,
+						animation: 'fade',
+						hideNavBar: true,
+						initial: true,
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 55
+						}
+					}),
+					_react2.default.createElement(_reactNativeRouterFlux.Scene, { key: 'loginScreen',
+						component: _LoginScreen2.default,
+						animation: 'fade',
+						hideNavBar: true,
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 61
+						}
+					}),
+					_react2.default.createElement(_reactNativeRouterFlux.Scene, { key: 'secondScreen',
+						component: _SecondScreen2.default,
+						animation: 'fade',
+						hideNavBar: true,
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 66
+						}
+					}),
+					_react2.default.createElement(_reactNativeRouterFlux.Scene, { key: 'signupScreen',
+						component: _SignupScreen2.default,
+						animation: 'fade',
+						hideNavBar: true,
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 71
+						}
+					}),
+					_react2.default.createElement(_reactNativeRouterFlux.Scene, { key: 'viewModule',
+						component: _ViewModule2.default,
+						animation: 'fade',
+						hideNavBar: true,
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 76
+						}
+					})
+				)
+			);
+		}
+	}]);
+	return Main;
+}(_react.Component);
+
+exports.default = Main;
+
+
+var style = _reactNative.StyleSheet.create({
+	tabBarStyle: {
+		borderTopWidth: .5,
+		borderColor: '#b7b7b7',
+		backgroundColor: 'white',
+		opacity: 1
+	}
+});

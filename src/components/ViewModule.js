@@ -107,6 +107,15 @@ export default class ViewModule extends Component {
 		}
 	}
 
+	/*
+	<Header
+					backgroundColor="#03a9f4"
+				  leftComponent={this.renderLeftComponent()}
+				  centerComponent={this.renderCenterComponent()}
+				  rightComponent={this.renderRightComponent()}
+				/>
+	*/
+
   renderCenterComponent(){
 		return { 
 			text: "Section " + this.getCount(this.state.module.sections, this.props.sectionId) + " » Lesson " + this.getCount(this.state.section.lessons, this.props.lessonId),
@@ -147,9 +156,9 @@ export default class ViewModule extends Component {
 			<ScrollView style={styles.container}>
 				<Header
 					backgroundColor="#03a9f4"
-				  leftComponent={this.renderLeftComponent()}
+				  
 				  centerComponent={this.renderCenterComponent()}
-				  rightComponent={this.renderRightComponent()}
+				  
 				/>
 				<View style={styles.container2}>
 

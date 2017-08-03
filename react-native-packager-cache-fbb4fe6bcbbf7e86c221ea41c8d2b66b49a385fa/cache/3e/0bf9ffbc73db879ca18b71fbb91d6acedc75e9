@@ -1,0 +1,48 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _events = require('events');
+
+var _AppDispatcher = require('../dispatchers/AppDispatcher');
+
+var _AppDispatcher2 = babelHelpers.interopRequireDefault(_AppDispatcher);
+
+var BaseStore = function (_EventEmitter) {
+  babelHelpers.inherits(BaseStore, _EventEmitter);
+
+  function BaseStore() {
+    babelHelpers.classCallCheck(this, BaseStore);
+    return babelHelpers.possibleConstructorReturn(this, (BaseStore.__proto__ || Object.getPrototypeOf(BaseStore)).call(this));
+  }
+
+  babelHelpers.createClass(BaseStore, [{
+    key: 'subscribe',
+    value: function subscribe(actionSubscribe) {
+      this._dispatchToken = _AppDispatcher2.default.register(actionSubscribe());
+    }
+  }, {
+    key: 'emitChange',
+    value: function emitChange() {
+      this.emit('CHANGE');
+    }
+  }, {
+    key: 'addChangeListener',
+    value: function addChangeListener(cb) {
+      this.on('CHANGE', cb);
+    }
+  }, {
+    key: 'removeChangeListener',
+    value: function removeChangeListener(cb) {
+      this.removeListener('CHANGE', cb);
+    }
+  }, {
+    key: 'dispatchToken',
+    get: function get() {
+      return this._dispatchToken;
+    }
+  }]);
+  return BaseStore;
+}(_events.EventEmitter);
+
+exports.default = BaseStore;

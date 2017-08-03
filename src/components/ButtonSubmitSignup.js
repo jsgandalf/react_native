@@ -22,7 +22,7 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 const MARGIN = 40;
 
-export default class ButtonSubmitSignup extends Component {
+export default class ButtonSubmit extends Component {
 	constructor() {
 		super();
 
@@ -34,10 +34,6 @@ export default class ButtonSubmitSignup extends Component {
 		this.growAnimated = new Animated.Value(0);
 		this._onPress = this._onPress.bind(this);
 	}
-
-	_onPressButtonPOST(email, password) {
-      
-  }
 
   _resetState() {
   	this.setState({ isLoading: false });
@@ -71,8 +67,9 @@ export default class ButtonSubmitSignup extends Component {
 			this.growAnimated.setValue(0);
 		}, 2300);*/
 		
-		AuthService.login(AuthService.state.email, AuthService.state.password)
-		.then((response)=> { 
+		AuthService.signup(AuthService.state.name, AuthService.state.email, AuthService.state.password)
+		.then((response)=> {
+			console.log(response);
 			Actions.secondScreen();
 			this._resetState();
 		})
@@ -80,7 +77,7 @@ export default class ButtonSubmitSignup extends Component {
 			console.log(e);
 			this._resetState();
 			Alert.alert(
-			  'Login Failed',
+			  'Signup Failed',
 			  '',
 			  [
 			    {text: 'OK', onPress: () => console.log('OK Pressed')},
@@ -120,7 +117,7 @@ export default class ButtonSubmitSignup extends Component {
 							{this.state.isLoading ?
 								<Image source={spinner} style={styles.image} />
 								:
-								<Text style={styles.text}>LOGIN</Text>
+								<Text style={styles.text}>Signup</Text>
 							}
 					</TouchableOpacity>
 					<Animated.View style={[ styles.circle, {transform: [{scale: changeScale}]} ]} />
@@ -133,7 +130,7 @@ export default class ButtonSubmitSignup extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		top: -95,
+		top: 0,
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 	},

@@ -1,0 +1,398 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var _jsxFileName = '/Users/seanthomas/Documents/leadexperimentsMobile/src/components/ViewModule.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _reactNativeRouterFlux = require('react-native-router-flux');
+
+var _reactNativeYoutube = require('react-native-youtube');
+
+var _reactNativeYoutube2 = babelHelpers.interopRequireDefault(_reactNativeYoutube);
+
+var _AuthService = require('../services/AuthService');
+
+var _AuthService2 = babelHelpers.interopRequireDefault(_AuthService);
+
+var _Modules = require('./Modules');
+
+var _Modules2 = babelHelpers.interopRequireDefault(_Modules);
+
+var _LoginStore = require('../stores/LoginStore');
+
+var _LoginStore2 = babelHelpers.interopRequireDefault(_LoginStore);
+
+var _UniversityService = require('../services/UniversityService');
+
+var _UniversityService2 = babelHelpers.interopRequireDefault(_UniversityService);
+
+var _reactNativeElements = require('react-native-elements');
+
+var _reactNativeHtmlview = require('react-native-htmlview');
+
+var _reactNativeHtmlview2 = babelHelpers.interopRequireDefault(_reactNativeHtmlview);
+
+var _MyTabbar = require('./MyTabbar');
+
+var _MyTabbar2 = babelHelpers.interopRequireDefault(_MyTabbar);
+
+var _reactNativeMaterialBottomNavigation = require('react-native-material-bottom-navigation');
+
+var _reactNativeMaterialBottomNavigation2 = babelHelpers.interopRequireDefault(_reactNativeMaterialBottomNavigation);
+
+var _MaterialIcons = require('react-native-vector-icons/MaterialIcons');
+
+var _MaterialIcons2 = babelHelpers.interopRequireDefault(_MaterialIcons);
+
+var SIZE = 40;
+
+var ViewModule = function (_Component) {
+	babelHelpers.inherits(ViewModule, _Component);
+
+	function ViewModule(props) {
+		babelHelpers.classCallCheck(this, ViewModule);
+
+		var _this = babelHelpers.possibleConstructorReturn(this, (ViewModule.__proto__ || Object.getPrototypeOf(ViewModule)).call(this, props));
+
+		_this.state = {
+			university: _UniversityService2.default.state.university,
+			module: {},
+			section: {},
+			showVideoPlayer: false
+		};
+		_this.state.module = _this.state.university.modules.filter(function (module) {
+			return module._id == _this.props.moduleId;
+		})[0];
+		if (!_this.props.sectionId && _this.state.module.sections && _this.state.module.sections.length > 0) {
+			_this.props.sectionId = _this.state.module.sections[0]._id;
+			_this.state.section = _this.state.module.sections[0];
+		}
+		if (_this.props.sectionId) {
+			_this.state.section = _this.state.module.sections.filter(function (section) {
+				return section._id == _this.props.sectionId;
+			})[0];
+		}
+		if (!_this.props.lessonId && _this.state.section.lessons && _this.state.section.lessons.length > 0) {
+			_this.props.lessonId = _this.state.section.lessons[0]._id;
+			_this.state.lesson = _this.state.section.lessons[0];
+			_this.state.lesson.description = _this.removeBreaks(_this.state.lesson.description);
+		}
+		if (_this.props.lessonId) {
+			_this.state.lesson = _this.state.section.lessons.filter(function (lesson) {
+				return lesson._id == _this.props.lessonId;
+			})[0];
+		}
+		if (_this.state.lesson.video) {
+			_this.state.showVideoPlayer = true;
+		}
+
+		return _this;
+	}
+
+	babelHelpers.createClass(ViewModule, [{
+		key: 'removeBreaks',
+		value: function removeBreaks(description) {
+			return description.replace(/\<br\/\>/g, "").replace(/\<p\>\<\/p\>/g, "").replace(/\<\/li\>/g, "</li><br />");
+		}
+	}, {
+		key: 'onClosePressed',
+		value: function onClosePressed() {
+			this.setState({ showVideoPlayer: false });
+		}
+	}, {
+		key: 'getCount',
+		value: function getCount(arry, _id) {
+			returnCount = 1;
+			arry.forEach(function (elem, i) {
+				if (elem._id == _id) {
+					returnCount = i + 1;
+				}
+			});
+			return returnCount;
+		}
+	}, {
+		key: 'getPrev',
+		value: function getPrev(that) {
+			var lessonIndex = that.getCount(that.state.section.lessons, that.props.lessonId);
+			var sectionIndex = that.getCount(that.state.module.sections, that.props.sectionId);
+			if (lessonIndex - 1 > 0) {
+				_reactNativeRouterFlux.Actions.viewModule({ moduleId: that.props.moduleId, sectionId: that.props.sectionId, lessonId: that.state.section.lessons[lessonIndex - 2]._id });
+			} else if (sectionIndex - 1 > 0) {
+				_reactNativeRouterFlux.Actions.viewModule({ moduleId: that.props.moduleId, sectionId: that.state.module.sections[sectionIndex - 2]._id, lessonId: that.state.module.sections[sectionIndex - 2].lessons[that.state.module.sections[sectionIndex - 2].lessons.length - 1]._id });
+			} else {
+				_reactNativeRouterFlux.Actions.secondScreen();
+			}
+		}
+	}, {
+		key: 'getNext',
+		value: function getNext(that) {
+			var lessonIndex = that.getCount(that.state.section.lessons, that.props.lessonId);
+			var sectionIndex = that.getCount(that.state.module.sections, that.props.sectionId);
+			if (lessonIndex < that.state.section.lessons.length) {
+				_reactNativeRouterFlux.Actions.viewModule({ moduleId: that.props.moduleId, sectionId: that.props.sectionId, lessonId: that.state.section.lessons[lessonIndex]._id });
+			} else if (sectionIndex < that.state.module.sections.length) {
+				_reactNativeRouterFlux.Actions.viewModule({ moduleId: that.props.moduleId, sectionId: that.state.module.sections[sectionIndex]._id });
+			} else {
+				_reactNativeRouterFlux.Actions.secondScreen();
+			}
+		}
+	}, {
+		key: 'renderCenterComponent',
+		value: function renderCenterComponent() {
+			return {
+				text: "Section " + this.getCount(this.state.module.sections, this.props.sectionId) + " » Lesson " + this.getCount(this.state.section.lessons, this.props.lessonId),
+				style: { color: '#FFF', fontWeight: 'bold' }
+			};
+		}
+	}, {
+		key: 'renderLeftComponent',
+		value: function renderLeftComponent() {
+			var _this2 = this;
+
+			return _react2.default.createElement(_reactNativeElements.Icon, { name: 'navigate-before',
+				color: '#FFF',
+				iconStyle: styles.icon,
+				onPress: function onPress() {
+					return _this2.getPrev(_this2);
+				},
+				__source: {
+					fileName: _jsxFileName,
+					lineNumber: 127
+				}
+			});
+		}
+	}, {
+		key: 'renderRightComponent',
+		value: function renderRightComponent() {
+			var _this3 = this;
+
+			return _react2.default.createElement(_reactNativeElements.Icon, { name: 'navigate-next',
+				color: '#FFF',
+				iconStyle: styles.icon,
+				onPress: function onPress() {
+					return _this3.getNext(_this3);
+				},
+				__source: {
+					fileName: _jsxFileName,
+					lineNumber: 136
+				}
+			});
+		}
+	}, {
+		key: 'actionTab',
+		value: function actionTab(pressed) {
+			if (pressed == 0) {
+				this.getPrev(this);
+			} else if (pressed == 2) {
+				this.getNext(this);
+			} else {
+				_reactNativeRouterFlux.Actions.secondScreen();
+			}
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this4 = this;
+
+			return _react2.default.createElement(
+				_reactNative.View,
+				{
+					__source: {
+						fileName: _jsxFileName,
+						lineNumber: 155
+					}
+				},
+				_react2.default.createElement(
+					_reactNative.ScrollView,
+					{ style: styles.container, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 156
+						}
+					},
+					_react2.default.createElement(_reactNativeElements.Header, {
+						backgroundColor: '#03a9f4',
+
+						centerComponent: this.renderCenterComponent(),
+
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 157
+						}
+					}),
+					_react2.default.createElement(
+						_reactNative.View,
+						{ style: styles.container2, __source: {
+								fileName: _jsxFileName,
+								lineNumber: 163
+							}
+						},
+						_react2.default.createElement(
+							_reactNative.Text,
+							{ style: styles.h1, __source: {
+									fileName: _jsxFileName,
+									lineNumber: 165
+								}
+							},
+							this.state.lesson.name
+						),
+						this.state.showVideoPlayer && _react2.default.createElement(_reactNativeYoutube2.default, {
+							videoId: this.state.lesson.video,
+							play: false,
+							fullscreen: true,
+							loop: true,
+
+							onReady: function onReady(e) {
+								return _this4.setState({ isReady: true });
+							},
+							onChangeState: function onChangeState(e) {
+								return _this4.setState({ status: e.state });
+							},
+							onChangeQuality: function onChangeQuality(e) {
+								return _this4.setState({ quality: e.quality });
+							},
+							onError: function onError(e) {
+								return _this4.setState({ error: e.error });
+							},
+
+							style: { alignSelf: 'stretch', height: 300, marginBottom: 20 },
+							__source: {
+								fileName: _jsxFileName,
+								lineNumber: 167
+							}
+						}),
+						_react2.default.createElement(_reactNativeHtmlview2.default, {
+							value: this.state.lesson.description,
+							stylesheet: stylesHTML,
+							__source: {
+								fileName: _jsxFileName,
+								lineNumber: 180
+							}
+						})
+					)
+				),
+				_react2.default.createElement(
+					_reactNativeMaterialBottomNavigation2.default,
+					{
+						labelColor: 'white',
+						rippleColor: 'white',
+						style: { height: 56, elevation: 8, position: 'absolute', left: 0, bottom: 0, right: 0 },
+						onTabChange: function onTabChange(newTabIndex) {
+							return _this4.actionTab(newTabIndex);
+						},
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 188
+						}
+					},
+					_react2.default.createElement(_reactNativeMaterialBottomNavigation.Tab, {
+						barBackgroundColor: '#37474F',
+						label: 'Prev',
+						icon: _react2.default.createElement(_reactNativeElements.Icon, { size: 24, color: 'white', name: 'chevron-left', __source: {
+								fileName: _jsxFileName,
+								lineNumber: 197
+							}
+						}),
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 194
+						}
+					}),
+					_react2.default.createElement(_reactNativeMaterialBottomNavigation.Tab, {
+						barBackgroundColor: '#37474F',
+						label: 'Home',
+						icon: _react2.default.createElement(_reactNativeElements.Icon, { size: 24, color: 'white', name: 'home', __source: {
+								fileName: _jsxFileName,
+								lineNumber: 202
+							}
+						}),
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 199
+						}
+					}),
+					_react2.default.createElement(_reactNativeMaterialBottomNavigation.Tab, {
+						barBackgroundColor: '#37474F',
+						label: 'Next',
+						icon: _react2.default.createElement(_reactNativeElements.Icon, { size: 24, color: 'white', name: 'chevron-right', __source: {
+								fileName: _jsxFileName,
+								lineNumber: 207
+							}
+						}),
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 204
+						}
+					})
+				)
+			);
+		}
+	}]);
+	return ViewModule;
+}(_react.Component);
+
+exports.default = ViewModule;
+
+
+var stylesHTML = _reactNative.StyleSheet.create({
+	p: {
+		padding: 20
+	},
+	ul: {
+		flex: 1,
+		flexWrap: 'nowrap',
+		display: 'flex'
+	},
+	a: {
+		fontWeight: '300',
+		color: '#FF3366' }
+});
+
+var styles = _reactNative.StyleSheet.create({
+	icon: {
+		backgroundColor: "#03a9f4"
+	},
+	h1: {
+		fontSize: 25,
+		marginBottom: 20,
+		textAlign: 'center'
+	},
+	backgroundVideo: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0
+	},
+	container2: {
+		marginTop: 80,
+		marginLeft: 20,
+		marginRight: 20,
+		marginBottom: 60,
+		minHeight: 550
+	},
+	button: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: SIZE,
+		height: SIZE,
+		borderRadius: 100,
+		zIndex: 99,
+		backgroundColor: '#F035E0'
+	},
+	circle: {
+		height: SIZE,
+		width: SIZE,
+		marginTop: -SIZE,
+		borderRadius: 100,
+		backgroundColor: '#F035E0'
+	},
+	image: {
+		width: 24,
+		height: 24
+	}
+});

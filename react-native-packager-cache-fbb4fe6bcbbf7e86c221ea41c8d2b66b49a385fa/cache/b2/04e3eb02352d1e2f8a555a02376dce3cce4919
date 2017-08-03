@@ -9,42 +9,35 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _reactNative = require('react-native');
 
-var _Login = require('./src/screens/Login');
+var _Main = require('./src/components/Main');
 
-var _Login2 = babelHelpers.interopRequireDefault(_Login);
-
-var _Secured = require('./src/screens/Secured');
-
-var _Secured2 = babelHelpers.interopRequireDefault(_Secured);
+var _Main2 = babelHelpers.interopRequireDefault(_Main);
 
 var leadexperimentsMobile = function (_Component) {
   babelHelpers.inherits(leadexperimentsMobile, _Component);
 
   function leadexperimentsMobile() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
     babelHelpers.classCallCheck(this, leadexperimentsMobile);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = leadexperimentsMobile.__proto__ || Object.getPrototypeOf(leadexperimentsMobile)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      isLoggedIn: false
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+    return babelHelpers.possibleConstructorReturn(this, (leadexperimentsMobile.__proto__ || Object.getPrototypeOf(leadexperimentsMobile)).apply(this, arguments));
   }
 
   babelHelpers.createClass(leadexperimentsMobile, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_Login2.default, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 25
-        }
-      });
+      return _react2.default.createElement(
+        _reactNative.View,
+        { style: styles.container, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 21
+          }
+        },
+        _react2.default.createElement(_Main2.default, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 22
+          }
+        })
+      );
     }
   }]);
   return leadexperimentsMobile;
@@ -56,19 +49,7 @@ exports.default = leadexperimentsMobile;
 var styles = _reactNative.StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
   }
 });
 

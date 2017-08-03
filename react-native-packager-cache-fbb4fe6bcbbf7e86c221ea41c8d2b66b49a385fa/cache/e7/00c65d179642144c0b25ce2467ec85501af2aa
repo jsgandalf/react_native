@@ -1,0 +1,103 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _jsxFileName = '/Users/seanthomas/Documents/leadexperimentsMobile/node_modules/react-native-material-bottom-navigation/lib/NavigationComponent.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _ = require('../');
+
+var _2 = babelHelpers.interopRequireDefault(_);
+
+var NavigationComponent = function (_PureComponent) {
+  babelHelpers.inherits(NavigationComponent, _PureComponent);
+
+  function NavigationComponent() {
+    babelHelpers.classCallCheck(this, NavigationComponent);
+    return babelHelpers.possibleConstructorReturn(this, (NavigationComponent.__proto__ || Object.getPrototypeOf(NavigationComponent)).apply(this, arguments));
+  }
+
+  babelHelpers.createClass(NavigationComponent, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          activeTintColor = _props.activeTintColor,
+          inactiveTintColor = _props.inactiveTintColor,
+          navigationState = _props.navigationState,
+          bottomNavigationOptions = _props.bottomNavigationOptions,
+          navigationGetLabel = _props.getLabel,
+          navigationGetLabelOld = _props.getLabelText,
+          renderIcon = _props.renderIcon,
+          jumpToIndex = _props.jumpToIndex,
+          style = _props.style;
+
+
+      var bnOptions = bottomNavigationOptions || {};
+
+      var getLabel = navigationGetLabel || navigationGetLabelOld;
+
+      var bnStyle = bnOptions.style;
+
+      var bnProps = {
+        labelColor: bnOptions.labelColor,
+        innerStyle: bnOptions.innerStyle,
+        activeLabelColor: bnOptions.activeLabelColor,
+        rippleColor: bnOptions.rippleColor,
+        backgroundColor: bnOptions.backgroundColor,
+        shifting: bnOptions.shifting
+      };
+
+      return _react2.default.createElement(
+        _2.default,
+        babelHelpers.extends({
+          activeTab: navigationState.index,
+
+          style: [{ height: 56 }, bnStyle || style],
+          onTabChange: function onTabChange(index) {
+            return jumpToIndex(index);
+          }
+        }, bnProps, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 62
+          }
+        }),
+        navigationState.routes.map(function (route, index) {
+          var focused = index === navigationState.index;
+
+          var scene = {
+            route: route,
+            index: index,
+            focused: focused,
+            tintColor: focused ? activeTintColor : inactiveTintColor
+          };
+          var label = getLabel(scene);
+          var icon = renderIcon(scene);
+
+          var tabs = bnOptions.tabs || {};
+          var tabOptions = tabs[route.key] || {};
+          var tabProps = {
+            icon: tabOptions.icon || icon,
+            activeIcon: tabOptions.activeIcon,
+            label: tabOptions.label || label,
+            labelColor: tabOptions.labelColor,
+            activeLabelColor: tabOptions.activeLabelColor,
+            barBackgroundColor: tabOptions.barBackgroundColor
+          };
+
+          return _react2.default.createElement(_.Tab, babelHelpers.extends({ key: index }, tabProps, {
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 97
+            }
+          }));
+        })
+      );
+    }
+  }]);
+  return NavigationComponent;
+}(_react.PureComponent);
+
+exports.default = NavigationComponent;

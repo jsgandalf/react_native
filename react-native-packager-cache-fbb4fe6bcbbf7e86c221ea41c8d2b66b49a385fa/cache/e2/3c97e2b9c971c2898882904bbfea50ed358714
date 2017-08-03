@@ -1,0 +1,92 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _jsxFileName = '/Users/seanthomas/Documents/leadexperimentsMobile/node_modules/react-native-material-bottom-navigation/lib/PressRipple.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _easing = require('./utils/easing');
+
+var defaultProps = {
+  color: 'black',
+  x: 0,
+  y: 0
+};
+
+var PressRipple = function (_Component) {
+  babelHelpers.inherits(PressRipple, _Component);
+
+  function PressRipple(props) {
+    babelHelpers.classCallCheck(this, PressRipple);
+
+    var _this = babelHelpers.possibleConstructorReturn(this, (PressRipple.__proto__ || Object.getPrototypeOf(PressRipple)).call(this, props));
+
+    _this.run = function () {
+      var useNativeDriver = _reactNative.Platform.OS === 'android';
+
+      _this.setState({ animating: true });
+      _this.state.opacity.setValue(_this.maxRippleOpacity);
+
+      _reactNative.Animated.parallel([_reactNative.Animated.timing(_this.state.scale, { toValue: 1, duration: 200, easing: _easing.easeOut, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this.state.opacity, { toValue: 0, duration: 300, easing: _easing.easeOut, useNativeDriver: useNativeDriver })]).start(function () {
+        _this.state.scale.setValue(0.01);
+        _this.state.opacity.setValue(0);
+
+        _this.setState({ animating: true });
+      });
+    };
+
+    _this.maxRippleOpacity = 0.12;
+    _this.size = 100;
+
+    _this.state = {
+      opacity: new _reactNative.Animated.Value(0),
+      scale: new _reactNative.Animated.Value(0.01),
+      animating: false
+    };
+    return _this;
+  }
+
+  babelHelpers.createClass(PressRipple, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          color = _props.color,
+          x = _props.x,
+          y = _props.y;
+      var _state = this.state,
+          scale = _state.scale,
+          opacity = _state.opacity,
+          animating = _state.animating;
+      var size = this.size;
+
+
+      if (!animating) return null;
+
+      return _react2.default.createElement(_reactNative.Animated.View, {
+        style: {
+          backgroundColor: this.props.color,
+          position: 'absolute',
+          top: this.props.y - size / 2,
+          left: this.props.x - size / 2,
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          opacity: opacity,
+          transform: [{ scale: scale }]
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 68
+        }
+      });
+    }
+  }]);
+  return PressRipple;
+}(_react.Component);
+
+PressRipple.defaultProps = defaultProps;
+exports.default = PressRipple;

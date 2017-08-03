@@ -1,0 +1,136 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var _jsxFileName = '/Users/seanthomas/Documents/leadexperimentsMobile/src/components/SignupSection.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _Dimensions = require('Dimensions');
+
+var _Dimensions2 = babelHelpers.interopRequireDefault(_Dimensions);
+
+var _reactNativeRouterFlux = require('react-native-router-flux');
+
+var _reactNative = require('react-native');
+
+var SignupSection = function (_Component) {
+	babelHelpers.inherits(SignupSection, _Component);
+
+	function SignupSection() {
+		babelHelpers.classCallCheck(this, SignupSection);
+		return babelHelpers.possibleConstructorReturn(this, (SignupSection.__proto__ || Object.getPrototypeOf(SignupSection)).apply(this, arguments));
+	}
+
+	babelHelpers.createClass(SignupSection, [{
+		key: '_goToURL',
+		value: function _goToURL(url) {
+			_reactNative.Linking.openURL(url).catch(function (err) {
+				return console.error('An error occurred', err);
+			});
+		}
+	}, {
+		key: '_goToSignup',
+		value: function _goToSignup() {
+			_reactNativeRouterFlux.Actions.signupScreen();
+		}
+	}, {
+		key: '_goToForgotPassword',
+		value: function _goToForgotPassword() {
+			_reactNative.Linking.openURL("https://app.leadexperiments.com/forgotpassword").catch(function (err) {
+				return console.error('An error occurred', err);
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				_reactNative.View,
+				{ style: styles.container, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 31
+					}
+				},
+				_react2.default.createElement(
+					_reactNative.TouchableOpacity,
+					{ onPress: this._goToSignup, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 32
+						}
+					},
+					_react2.default.createElement(
+						_reactNative.View,
+						{
+							__source: {
+								fileName: _jsxFileName,
+								lineNumber: 33
+							}
+						},
+						_react2.default.createElement(
+							_reactNative.Text,
+							{ style: styles.text, __source: {
+									fileName: _jsxFileName,
+									lineNumber: 34
+								}
+							},
+							'Signup'
+						)
+					)
+				),
+				_react2.default.createElement(
+					_reactNative.TouchableOpacity,
+					{ onPress: this._goToForgotPassword, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 37
+						}
+					},
+					_react2.default.createElement(
+						_reactNative.View,
+						{
+							__source: {
+								fileName: _jsxFileName,
+								lineNumber: 38
+							}
+						},
+						_react2.default.createElement(
+							_reactNative.Text,
+							{ style: styles.text, __source: {
+									fileName: _jsxFileName,
+									lineNumber: 39
+								}
+							},
+							'Forgot Password'
+						)
+					)
+				)
+			);
+		}
+	}]);
+	return SignupSection;
+}(_react.Component);
+
+exports.default = SignupSection;
+
+
+var DEVICE_WIDTH = _Dimensions2.default.get('window').width;
+var DEVICE_HEIGHT = _Dimensions2.default.get('window').height;
+
+var styles = _reactNative.StyleSheet.create({
+	image: {
+		width: 40,
+		height: 40,
+		zIndex: 200
+	},
+	container: {
+		flex: 1,
+		top: -55,
+		width: DEVICE_WIDTH,
+		flexDirection: 'row',
+		justifyContent: 'space-around'
+	},
+	text: {
+		color: 'white',
+		backgroundColor: 'transparent'
+	}
+});

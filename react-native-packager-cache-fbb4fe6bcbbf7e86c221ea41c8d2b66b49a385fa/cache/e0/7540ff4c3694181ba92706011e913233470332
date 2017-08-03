@@ -1,0 +1,128 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var _jsxFileName = '/Users/seanthomas/Documents/leadexperimentsMobile/src/components/SecondScreen.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _reactNativeRouterFlux = require('react-native-router-flux');
+
+var _leftArrow = require('../images/left-arrow.png');
+
+var _leftArrow2 = babelHelpers.interopRequireDefault(_leftArrow);
+
+var _AuthService = require('../services/AuthService');
+
+var _AuthService2 = babelHelpers.interopRequireDefault(_AuthService);
+
+var _Modules = require('./Modules');
+
+var _Modules2 = babelHelpers.interopRequireDefault(_Modules);
+
+var _LoginStore = require('../stores/LoginStore');
+
+var _LoginStore2 = babelHelpers.interopRequireDefault(_LoginStore);
+
+var _UniversityService = require('../services/UniversityService');
+
+var _UniversityService2 = babelHelpers.interopRequireDefault(_UniversityService);
+
+var SIZE = 40;
+
+var SecondScreen = function (_Component) {
+	babelHelpers.inherits(SecondScreen, _Component);
+
+	function SecondScreen() {
+		babelHelpers.classCallCheck(this, SecondScreen);
+
+		var _this = babelHelpers.possibleConstructorReturn(this, (SecondScreen.__proto__ || Object.getPrototypeOf(SecondScreen)).call(this));
+
+		_this.state = {
+			isLoading: false,
+			university: {}
+		};
+
+		_this._onPress = _this._onPress.bind(_this);
+		_this.growAnimated = new _reactNative.Animated.Value(0);
+
+		return _this;
+	}
+
+	babelHelpers.createClass(SecondScreen, [{
+		key: '_onPress',
+		value: function _onPress() {
+			if (this.state.isLoading) return;
+
+			this.setState({ isLoading: true });
+
+			_reactNative.Animated.timing(this.growAnimated, {
+				toValue: 1,
+				duration: 300,
+				easing: _reactNative.Easing.linear
+			}).start();
+
+			setTimeout(function () {
+				_reactNativeRouterFlux.Actions.pop();
+			}, 500);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var changeScale = this.growAnimated.interpolate({
+				inputRange: [0, 1],
+				outputRange: [1, SIZE]
+			});
+
+			return _react2.default.createElement(
+				_reactNative.View,
+				{ style: styles.container, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 60
+					}
+				},
+				_react2.default.createElement(_Modules2.default, {
+					__source: {
+						fileName: _jsxFileName,
+						lineNumber: 61
+					}
+				})
+			);
+		}
+	}]);
+	return SecondScreen;
+}(_react.Component);
+
+exports.default = SecondScreen;
+
+
+var styles = _reactNative.StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: 'flex-start',
+		justifyContent: 'flex-start'
+	},
+	button: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: SIZE,
+		height: SIZE,
+		borderRadius: 100,
+		zIndex: 99,
+		backgroundColor: '#F035E0'
+	},
+	circle: {
+		height: SIZE,
+		width: SIZE,
+		marginTop: -SIZE,
+		borderRadius: 100,
+		backgroundColor: '#F035E0'
+	},
+	image: {
+		width: 24,
+		height: 24
+	}
+});

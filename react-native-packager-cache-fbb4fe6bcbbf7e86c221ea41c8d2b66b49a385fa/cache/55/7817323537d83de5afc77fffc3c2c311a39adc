@@ -1,0 +1,190 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var _jsxFileName = '/Users/seanthomas/Documents/leadexperimentsMobile/src/components/ButtonSubmitSignup.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _Dimensions = require('Dimensions');
+
+var _Dimensions2 = babelHelpers.interopRequireDefault(_Dimensions);
+
+var _reactNative = require('react-native');
+
+var _reactNativeRouterFlux = require('react-native-router-flux');
+
+var _loading = require('../images/loading.gif');
+
+var _loading2 = babelHelpers.interopRequireDefault(_loading);
+
+var _AuthService = require('../services/AuthService');
+
+var _AuthService2 = babelHelpers.interopRequireDefault(_AuthService);
+
+var _AppDispatcher = require('../dispatchers/AppDispatcher.js');
+
+var _AppDispatcher2 = babelHelpers.interopRequireDefault(_AppDispatcher);
+
+var DEVICE_WIDTH = _Dimensions2.default.get('window').width;
+var DEVICE_HEIGHT = _Dimensions2.default.get('window').height;
+var MARGIN = 40;
+
+var ButtonSubmit = function (_Component) {
+	babelHelpers.inherits(ButtonSubmit, _Component);
+
+	function ButtonSubmit() {
+		babelHelpers.classCallCheck(this, ButtonSubmit);
+
+		var _this = babelHelpers.possibleConstructorReturn(this, (ButtonSubmit.__proto__ || Object.getPrototypeOf(ButtonSubmit)).call(this));
+
+		_this.state = {
+			isLoading: false
+		};
+
+		_this.buttonAnimated = new _reactNative.Animated.Value(0);
+		_this.growAnimated = new _reactNative.Animated.Value(0);
+		_this._onPress = _this._onPress.bind(_this);
+		return _this;
+	}
+
+	babelHelpers.createClass(ButtonSubmit, [{
+		key: '_resetState',
+		value: function _resetState() {
+			this.setState({ isLoading: false });
+			this.buttonAnimated.setValue(0);
+			this.growAnimated.setValue(0);
+		}
+	}, {
+		key: '_onPress',
+		value: function _onPress() {
+			var _this2 = this;
+
+			if (this.state.isLoading) return;
+
+			this.setState({ isLoading: true });
+			_reactNative.Animated.timing(this.buttonAnimated, {
+				toValue: 1,
+				duration: 200,
+				easing: _reactNative.Easing.linear
+			}).start();
+
+			_AuthService2.default.signup(_AuthService2.default.state.name, _AuthService2.default.state.email, _AuthService2.default.state.password).then(function (response) {
+				_this2._resetState();
+			}).catch(function (e) {
+				console.log(e);
+				_this2._resetState();
+				_reactNative.Alert.alert('Signup Failed', '', [{ text: 'OK', onPress: function onPress() {
+						return console.log('OK Pressed');
+					} }], { cancelable: true });
+			});
+		}
+	}, {
+		key: '_onGrow',
+		value: function _onGrow() {
+			_reactNative.Animated.timing(this.growAnimated, {
+				toValue: 1,
+				duration: 200,
+				easing: _reactNative.Easing.linear
+			}).start();
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var changeWidth = this.buttonAnimated.interpolate({
+				inputRange: [0, 1],
+				outputRange: [DEVICE_WIDTH - MARGIN, MARGIN]
+			});
+			var changeScale = this.growAnimated.interpolate({
+				inputRange: [0, 1],
+				outputRange: [1, MARGIN]
+			});
+
+			return _react2.default.createElement(
+				_reactNative.View,
+				{ style: styles.container, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 111
+					}
+				},
+				_react2.default.createElement(
+					_reactNative.Animated.View,
+					{ style: { width: changeWidth }, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 112
+						}
+					},
+					_react2.default.createElement(
+						_reactNative.TouchableOpacity,
+						{ style: styles.button,
+							onPress: this._onPress,
+							activeOpacity: 1, __source: {
+								fileName: _jsxFileName,
+								lineNumber: 113
+							}
+						},
+						this.state.isLoading ? _react2.default.createElement(_reactNative.Image, { source: _loading2.default, style: styles.image, __source: {
+								fileName: _jsxFileName,
+								lineNumber: 117
+							}
+						}) : _react2.default.createElement(
+							_reactNative.Text,
+							{ style: styles.text, __source: {
+									fileName: _jsxFileName,
+									lineNumber: 119
+								}
+							},
+							'Signup'
+						)
+					),
+					_react2.default.createElement(_reactNative.Animated.View, { style: [styles.circle, { transform: [{ scale: changeScale }] }], __source: {
+							fileName: _jsxFileName,
+							lineNumber: 122
+						}
+					})
+				)
+			);
+		}
+	}]);
+	return ButtonSubmit;
+}(_react.Component);
+
+exports.default = ButtonSubmit;
+
+
+var styles = _reactNative.StyleSheet.create({
+	container: {
+		flex: 1,
+		top: 0,
+		alignItems: 'center',
+		justifyContent: 'flex-start'
+	},
+	button: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#03a9f4',
+		height: MARGIN,
+		borderRadius: 20,
+		zIndex: 100
+	},
+	circle: {
+		height: MARGIN,
+		width: MARGIN,
+		marginTop: -MARGIN,
+		borderWidth: 1,
+		borderColor: '#03a9f4',
+		borderRadius: 100,
+		alignSelf: 'center',
+		zIndex: 99,
+		backgroundColor: '#03a9f4'
+	},
+	text: {
+		color: 'white',
+		backgroundColor: 'transparent'
+	},
+	image: {
+		width: 24,
+		height: 24
+	}
+});

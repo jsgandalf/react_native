@@ -1,0 +1,155 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _LoginConstants = require('../constants/LoginConstants');
+
+var _LoginConstants2 = babelHelpers.interopRequireDefault(_LoginConstants);
+
+var _BaseStore2 = require('./BaseStore');
+
+var _BaseStore3 = babelHelpers.interopRequireDefault(_BaseStore2);
+
+var _reactNative = require('react-native');
+
+var LoginStore = function (_BaseStore) {
+    babelHelpers.inherits(LoginStore, _BaseStore);
+
+    function LoginStore() {
+        babelHelpers.classCallCheck(this, LoginStore);
+
+        var _this = babelHelpers.possibleConstructorReturn(this, (LoginStore.__proto__ || Object.getPrototypeOf(LoginStore)).call(this));
+
+        _this.subscribe(function () {
+            return _this._registerToActions.bind(_this);
+        });
+        _this._user = null;
+        return _this;
+    }
+
+    babelHelpers.createClass(LoginStore, [{
+        key: 'removeCache',
+        value: function removeCache() {
+            var value;
+            return regeneratorRuntime.async(function removeCache$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.prev = 0;
+
+                            this._user = null;
+                            _context.next = 4;
+                            return regeneratorRuntime.awrap(_reactNative.AsyncStorage.removeItem('@user:instance'));
+
+                        case 4:
+                            value = _context.sent;
+                            _context.next = 10;
+                            break;
+
+                        case 7:
+                            _context.prev = 7;
+                            _context.t0 = _context['catch'](0);
+
+                            console.log(_context.t0);
+
+                        case 10:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, null, this, [[0, 7]]);
+        }
+    }, {
+        key: 'logout',
+        value: function logout() {
+            this.removeCache();
+        }
+    }, {
+        key: '_registerToActions',
+        value: function _registerToActions(action) {
+            this._user = action.user;
+            this.setCache(this._user);
+        }
+    }, {
+        key: 'getCache',
+        value: function getCache() {
+            var value;
+            return regeneratorRuntime.async(function getCache$(_context2) {
+                while (1) {
+                    switch (_context2.prev = _context2.next) {
+                        case 0:
+                            if (!this._user) {
+                                _context2.next = 4;
+                                break;
+                            }
+
+                            return _context2.abrupt('return', this._user);
+
+                        case 4:
+                            _context2.prev = 4;
+                            _context2.next = 7;
+                            return regeneratorRuntime.awrap(_reactNative.AsyncStorage.getItem('@user:instance'));
+
+                        case 7:
+                            value = _context2.sent;
+                            return _context2.abrupt('return', JSON.parse(value));
+
+                        case 11:
+                            _context2.prev = 11;
+                            _context2.t0 = _context2['catch'](4);
+
+                            console.log(_context2.t0);
+
+                        case 14:
+                        case 'end':
+                            return _context2.stop();
+                    }
+                }
+            }, null, this, [[4, 11]]);
+        }
+    }, {
+        key: 'setCache',
+        value: function setCache(user) {
+            return regeneratorRuntime.async(function setCache$(_context3) {
+                while (1) {
+                    switch (_context3.prev = _context3.next) {
+                        case 0:
+                            _context3.prev = 0;
+
+                            this._user = user;
+                            _context3.next = 4;
+                            return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('@user:instance', JSON.stringify(user)));
+
+                        case 4:
+                            _context3.next = 8;
+                            break;
+
+                        case 6:
+                            _context3.prev = 6;
+                            _context3.t0 = _context3['catch'](0);
+
+                        case 8:
+                        case 'end':
+                            return _context3.stop();
+                    }
+                }
+            }, null, this, [[0, 6]]);
+        }
+    }, {
+        key: 'isLoggedIn',
+        value: function isLoggedIn() {
+            return !!this._user;
+        }
+    }, {
+        key: 'user',
+        get: function get() {
+            if (!this._user) {
+                return this.getCache();
+            }
+            return this._user;
+        }
+    }]);
+    return LoginStore;
+}(_BaseStore3.default);
+
+exports.default = new LoginStore();

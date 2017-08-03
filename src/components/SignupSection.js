@@ -17,13 +17,13 @@ export default class SignupSection extends Component {
 
   }
   _goToSignup(){
-  	//Actions.signupScreen();
-  	Linking.openURL("https://leadexperiments.com").catch(err => console.error('An error occurred', err));
+  	Actions.signupScreen();
+  	//Linking.openURL("https://leadexperiments.com").catch(err => console.error('An error occurred', err));
   }
 
   _goToForgotPassword(){
-  	//Actions.signupScreen();
-  	Linking.openURL("https://app.leadexperiments.com/forgotpassword").catch(err => console.error('An error occurred', err));
+  	Actions.forgotPassword();
+  	//Linking.openURL("https://app.leadexperiments.com/forgotpassword").catch(err => console.error('An error occurred', err));
   }
 
 	render() {

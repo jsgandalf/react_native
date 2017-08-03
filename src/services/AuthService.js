@@ -17,6 +17,7 @@ class AuthService extends BaseService {
     }
 
     handleErrors(response) {
+        console.log(response)
         if (!response.ok) {
             throw Error(response.statusText);
         }
@@ -52,7 +53,7 @@ class AuthService extends BaseService {
         LoginActions.logoutUser();
     }
 
-    signup(name, username, password) {
+    signup(name, email, password) {
         return fetch('https://app.leadexperiments.com/api/users', {
           method: 'POST',
           headers: {
@@ -69,12 +70,29 @@ class AuthService extends BaseService {
         .then(response => { return response.json(); })
         .then(responseData => { 
             this.state.apiKey = responseData.user.apiKey; 
-
+            console.log(this.state.apiKey);
             AppDispatcher.dispatch({
                 user:responseData.user
             });
-
             return this.state.apiKey; 
+        })
+    }
+
+    forgotPassword(email) {
+        return fetch('https://app.leadexperiments.com/api/users/resetPassword', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email
+          })
+        })
+        .then(this.handleErrors)
+        .then(response => { return response.json(); })
+        .then(responseData => {
+            
         })
     }
 

@@ -9,6 +9,7 @@ import SecondScreen from './SecondScreen';
 import SignupScreen from './SignupScreen';
 import ViewModule from './ViewModule';
 import LoadingScreen from './LoadingScreen';
+import ForgotPasswordScreen from './forgotpassword/ForgotPasswordScreen';
 import LoginStore from '../stores/LoginStore';
 import AuthService from '../services/AuthService';
 
@@ -75,6 +76,11 @@ export default class Main extends Component {
 			        />
 			        <Scene key="viewModule"
 			          component={ViewModule}
+			          animation='fade'
+			          hideNavBar={true}
+			        />
+			        <Scene key="forgotPassword"
+			          component={ForgotPasswordScreen}
 			          animation='fade'
 			          hideNavBar={true}
 			        />

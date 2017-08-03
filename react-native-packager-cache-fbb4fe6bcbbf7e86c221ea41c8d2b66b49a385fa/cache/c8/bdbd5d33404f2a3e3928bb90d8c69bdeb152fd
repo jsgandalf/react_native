@@ -1,0 +1,77 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _BaseService2 = require('./BaseService');
+
+var _BaseService3 = babelHelpers.interopRequireDefault(_BaseService2);
+
+var _AuthService = require('./AuthService.js');
+
+var _AuthService2 = babelHelpers.interopRequireDefault(_AuthService);
+
+var UniversityService = function (_BaseService) {
+    babelHelpers.inherits(UniversityService, _BaseService);
+
+    function UniversityService() {
+        babelHelpers.classCallCheck(this, UniversityService);
+
+        var _this = babelHelpers.possibleConstructorReturn(this, (UniversityService.__proto__ || Object.getPrototypeOf(UniversityService)).call(this));
+
+        _this.state = {
+            university: {}
+        };
+        return _this;
+    }
+
+    babelHelpers.createClass(UniversityService, [{
+        key: 'handleErrors',
+        value: function handleErrors(response) {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response;
+        }
+    }, {
+        key: 'setUniversityState',
+        value: function setUniversityState(university) {
+            this.setState({ university: university });
+        }
+    }, {
+        key: 'cleanVideo',
+        value: function cleanVideo(university) {
+            university.modules = university.modules.map(function (module) {
+                module.sections = module.sections.map(function (section) {
+                    section.lessons = section.lessons.map(function (lesson) {
+                        if (lesson.video) lesson.video = lesson.video.replace("https://www.youtube.com/watch?v=", "");
+                        return lesson;
+                    });
+                    return section;
+                });
+                return module;
+            });
+            return university;
+        }
+    }, {
+        key: 'getUniversity',
+        value: function getUniversity() {
+            var _this2 = this;
+
+            return fetch('https://app.leadexperiments.com/api/university/5911fea2f75eda1200ab52bd?access_token=' + _AuthService2.default.state.apiKey, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(this.handleErrors).then(function (response) {
+                return response.json();
+            }).then(function (responseData) {
+                _this2.state.university = _this2.cleanVideo(responseData);
+                return _this2.state.university;
+            });
+        }
+    }]);
+    return UniversityService;
+}(_BaseService3.default);
+
+exports.default = new UniversityService();

@@ -11,6 +11,7 @@ class UniversityService extends BaseService {
     }
 
     handleErrors(response) {
+      console.log(response);
         if (!response.ok) {
             throw Error(response.statusText);
         }
@@ -34,6 +35,7 @@ class UniversityService extends BaseService {
     }
 
     getUniversity(){
+      console.log(AuthService.state.apiKey);
       return fetch ('https://app.leadexperiments.com/api/university/5911fea2f75eda1200ab52bd?access_token='+AuthService.state.apiKey, {
         method: 'GET',
         headers: {

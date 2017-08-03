@@ -1,0 +1,112 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var _jsxFileName = '/Users/seanthomas/Documents/leadexperimentsMobile/src/components/LoadingScreen.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _reactNativeRouterFlux = require('react-native-router-flux');
+
+var _leftArrow = require('../images/left-arrow.png');
+
+var _leftArrow2 = babelHelpers.interopRequireDefault(_leftArrow);
+
+var _AuthService = require('../services/AuthService');
+
+var _AuthService2 = babelHelpers.interopRequireDefault(_AuthService);
+
+var _Modules = require('./Modules');
+
+var _Modules2 = babelHelpers.interopRequireDefault(_Modules);
+
+var _LoginStore = require('../stores/LoginStore');
+
+var _LoginStore2 = babelHelpers.interopRequireDefault(_LoginStore);
+
+var _loading = require('../images/loading.gif');
+
+var _loading2 = babelHelpers.interopRequireDefault(_loading);
+
+var SIZE = 40;
+
+var SecondScreen = function (_Component) {
+	babelHelpers.inherits(SecondScreen, _Component);
+
+	function SecondScreen() {
+		babelHelpers.classCallCheck(this, SecondScreen);
+		return babelHelpers.possibleConstructorReturn(this, (SecondScreen.__proto__ || Object.getPrototypeOf(SecondScreen)).apply(this, arguments));
+	}
+
+	babelHelpers.createClass(SecondScreen, [{
+		key: 'render',
+		value: function render() {
+
+			return _react2.default.createElement(
+				_reactNative.View,
+				{ style: styles.container, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 26
+					}
+				},
+				_react2.default.createElement(
+					_reactNative.Text,
+					{ style: styles.text, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 27
+						}
+					},
+					'Loading'
+				),
+				_react2.default.createElement(_reactNative.Image, { source: _loading2.default, style: styles.image, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 28
+					}
+				})
+			);
+		}
+	}]);
+	return SecondScreen;
+}(_react.Component);
+
+exports.default = SecondScreen;
+
+
+var styles = _reactNative.StyleSheet.create({
+	text: {
+		color: 'black',
+		fontSize: 40,
+		textAlign: 'center'
+	},
+	container: {
+		flex: 2,
+		margin: 20,
+		backgroundColor: 'white',
+		justifyContent: 'center',
+		alignItems: 'center'
+
+	},
+	button: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: SIZE,
+		height: SIZE,
+		borderRadius: 100,
+		zIndex: 99,
+		backgroundColor: '#F035E0'
+	},
+	circle: {
+		height: SIZE,
+		width: SIZE,
+		marginTop: -SIZE,
+		borderRadius: 100,
+		backgroundColor: '#F035E0'
+	},
+	image: {
+		width: 32,
+		height: 32
+	}
+});

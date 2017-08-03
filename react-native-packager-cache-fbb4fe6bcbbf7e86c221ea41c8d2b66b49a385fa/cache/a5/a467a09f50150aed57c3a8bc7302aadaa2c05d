@@ -1,0 +1,19 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.YouTubeStandaloneAndroid = undefined;
+
+var _YouTubeStandalone = require('./YouTubeStandalone.android');
+
+Object.defineProperty(exports, 'YouTubeStandaloneAndroid', {
+  enumerable: true,
+  get: function get() {
+    return _YouTubeStandalone.YouTubeStandaloneAndroid;
+  }
+});
+
+var _YouTube = require('./YouTube');
+
+var _YouTube2 = babelHelpers.interopRequireDefault(_YouTube);
+
+exports.default = _YouTube2.default;

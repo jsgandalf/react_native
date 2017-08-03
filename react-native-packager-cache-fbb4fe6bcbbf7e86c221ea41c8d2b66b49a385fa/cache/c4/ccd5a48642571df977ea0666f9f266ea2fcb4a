@@ -1,0 +1,122 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _bluebird = require('bluebird');
+
+var _bluebird2 = babelHelpers.interopRequireDefault(_bluebird);
+
+var _LoginConstants = require('../constants/LoginConstants');
+
+var _LoginConstants2 = babelHelpers.interopRequireDefault(_LoginConstants);
+
+var _LoginActions = require('../actions/LoginActions');
+
+var _LoginActions2 = babelHelpers.interopRequireDefault(_LoginActions);
+
+var _BaseService2 = require('./BaseService');
+
+var _BaseService3 = babelHelpers.interopRequireDefault(_BaseService2);
+
+var _AppDispatcher = require('../dispatchers/AppDispatcher.js');
+
+var _AppDispatcher2 = babelHelpers.interopRequireDefault(_AppDispatcher);
+
+var AuthService = function (_BaseService) {
+    babelHelpers.inherits(AuthService, _BaseService);
+
+    function AuthService() {
+        babelHelpers.classCallCheck(this, AuthService);
+
+        var _this = babelHelpers.possibleConstructorReturn(this, (AuthService.__proto__ || Object.getPrototypeOf(AuthService)).call(this));
+
+        _this.state = {
+            name: '',
+            email: '',
+            password: '',
+            apiKey: ''
+        };
+        return _this;
+    }
+
+    babelHelpers.createClass(AuthService, [{
+        key: 'handleErrors',
+        value: function handleErrors(response) {
+            console.log(response);
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response;
+        }
+    }, {
+        key: 'login',
+        value: function login(email, password) {
+            var _this2 = this;
+
+            return fetch('https://app.leadexperiments.com/auth/local', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }).then(this.handleErrors).then(function (response) {
+                return response.json();
+            }).then(function (responseData) {
+                _this2.state.apiKey = responseData.user.apiKey;
+
+                _AppDispatcher2.default.dispatch({
+                    user: responseData.user
+                });
+
+                return _this2.state.apiKey;
+            });
+        }
+    }, {
+        key: 'logout',
+        value: function logout() {
+            _LoginActions2.default.logoutUser();
+        }
+    }, {
+        key: 'signup',
+        value: function signup(name, email, password) {
+            var _this3 = this;
+
+            return fetch('https://app.leadexperiments.com/api/users', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    password: password
+                })
+            }).then(this.handleErrors).then(function (response) {
+                return response.json();
+            }).then(function (responseData) {
+                console.log(responseData);
+                _this3.state.apiKey = responseData.user.apiKey;
+
+                return _this3.state.apiKey;
+            });
+        }
+    }, {
+        key: 'handleAuth',
+        value: function handleAuth(loginPromise) {
+            return loginPromise.then(function (response) {
+                console.log(response);
+                var jwt = response.token;
+
+                return true;
+            });
+        }
+    }]);
+    return AuthService;
+}(_BaseService3.default);
+
+exports.default = new AuthService();

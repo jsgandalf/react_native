@@ -14,6 +14,7 @@ import {
 import { Card, ListItem, Button } from 'react-native-elements'
 import { Actions, ActionConst } from 'react-native-router-flux';
 import UniversityService from "../services/UniversityService"
+import AuthService from "../services/AuthService"
 
 const SIZE = 40;
 
@@ -39,9 +40,13 @@ export default class Modules extends Component {
 
 	getUniversity(){
 		if(Object.keys(this.state.university).length === 0 && this.state.university.constructor === Object){
+			console.log('get university')
+			console.log(AuthService.state.apiKey);
 			UniversityService.getUniversity()
 				.then(university => {this.setUniversityState(university); })
-				.catch(e => { console.log(e); });
+				.catch(e => { console.log(e); Actions.loginScreen(); });
+		}else{
+			console.log('no get university')
 		}
 	}
 

@@ -1,0 +1,61 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _LoginStore = require('../stores/LoginStore');
+
+var _LoginStore2 = babelHelpers.interopRequireDefault(_LoginStore);
+
+var BaseService = function () {
+	function BaseService() {
+		babelHelpers.classCallCheck(this, BaseService);
+	}
+
+	babelHelpers.createClass(BaseService, [{
+		key: 'request',
+		value: function request(config) {
+
+			var r = {
+				method: config.method,
+				headers: config.headers
+			};
+
+			if (config.data) {
+				r.body = JSON.stringify(config.data);
+			}
+
+			console.log(config.url);
+			console.log(r.body);
+
+			return fetch(config.url, r).then(function (response) {
+				return response.json();
+			}).catch(function (e) {
+				return e;
+			});
+		}
+	}, {
+		key: 'requestAuthenticated',
+		value: function requestAuthenticated(config) {
+			var r = {
+				method: config.method,
+				headers: config.headers
+			};
+
+			r.headers.Authorization = 'Bearer ' + _LoginStore2.default.jwt;
+			r.crossOrigin = true;
+
+			if (config.data) {
+				r.data = config.data;
+			}
+
+			return fetch(config.url, r).then(function (response) {
+				return response.json();
+			}).catch(function (e) {
+				return e;
+			});
+		}
+	}]);
+	return BaseService;
+}();
+
+exports.default = BaseService;
